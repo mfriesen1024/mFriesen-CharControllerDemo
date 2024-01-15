@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class CharacterController2D : MonoBehaviour
 {
-    [SerializeField] float primaryMoveSpeed;
+    [SerializeField] float primaryMoveSpeed = 1;
     [SerializeField] Rigidbody2D rb;
     Vector2 move;
 
@@ -15,12 +15,15 @@ public class CharacterController2D : MonoBehaviour
 
     void FixedUpdate()
     {
-        
+        Vector2 tempMove = move.normalized * Time.deltaTime * primaryMoveSpeed;
+        float x = tempMove.x + transform.position.x;
+        float y = tempMove.y + transform.position.y;
+        tempMove = new Vector2(x, y);
+        rb.MovePosition(tempMove);
     }
 
     void OnMove(InputValue value)
     {
         move = value.Get<Vector2>();
-        Debug.Log(move.normalized);
     }
 }
